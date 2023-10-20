@@ -2,9 +2,10 @@ import java.io.*;
 import java.net.*;
 
 public class server {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        ServerSocket serverSocket = new ServerSocket(6666);
         try {
-            ServerSocket serverSocket = new ServerSocket(6666);
+            
             System.out.println("Server is listening on port "+ serverSocket.getLocalPort() +"...");
 
             while (true) {
@@ -46,10 +47,12 @@ public class server {
                     }
                 } catch (IOException e)  {
                     System.out.println("Client disconnected, waiting for another client...");
+                    
                 } 
             }
         } catch (IOException e) {
             e.printStackTrace();
+            serverSocket.close();
         }
     }
 

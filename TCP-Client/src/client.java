@@ -8,6 +8,7 @@ public class client {
         Socket clientSocket;
         
         clientSocket = new Socket("localhost",6666);
+
         
         DataInputStream dataInputStream = new DataInputStream(clientSocket.getInputStream());
         DataOutputStream dataOutputStream = new DataOutputStream(clientSocket.getOutputStream());
@@ -36,9 +37,11 @@ public class client {
                 }
             }
             dataOutputStream.writeUTF(msg);
+            dataOutputStream.flush();
             String response = dataInputStream.readUTF();
             System.out.println("RESPONSE: "+response);
         }
+        clientSocket.close();
     }
 
     public static int SendFile(String fileName, DataOutputStream dataOutputStream) throws IOException
@@ -50,6 +53,7 @@ public class client {
             FileInputStream fileInputStream = new FileInputStream(file);
 
             dataOutputStream.writeLong(file.length());
+            dataOutputStream.flush();
             byte[] buffer = new byte[1024];
             while((bytes = fileInputStream.read(buffer))!= -1)
             {

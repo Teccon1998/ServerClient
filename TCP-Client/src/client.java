@@ -28,6 +28,7 @@ public class client {
                 {
                     System.out.println("File sent successfully.");
                     break;
+
                 }
                 else
                 {
@@ -38,7 +39,6 @@ public class client {
             String response = dataInputStream.readUTF();
             System.out.println("RESPONSE: "+response);
         }
-        clientSocket.close();
     }
 
     public static int SendFile(String fileName, DataOutputStream dataOutputStream) throws IOException
@@ -50,7 +50,7 @@ public class client {
             FileInputStream fileInputStream = new FileInputStream(file);
 
             dataOutputStream.writeLong(file.length());
-            byte[] buffer = new byte[8196];
+            byte[] buffer = new byte[1024];
             while((bytes = fileInputStream.read(buffer))!= -1)
             {
                 dataOutputStream.write(buffer,0,bytes);

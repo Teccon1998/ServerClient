@@ -49,17 +49,17 @@ public class server {
     public static int receiveFile(DataInputStream dataInputStream, String message) throws IOException
     {
         try {
+            int bytes = 0;
             String[] splitMessage = message.split(" ",2);
             long fileSize = dataInputStream.readLong();
             String fileName = splitMessage[1];
-            int bytesRead;
-            int totalBytesRead = 0;
+            fileName = fileName.substring(fileName.lastIndexOf("\\")+1);
             byte[] buffer = new byte[1024];
-            FileOutputStream fileOutputStream = new FileOutputStream(fileName);
-            while (totalBytesRead < fileSize) {
-                bytesRead = dataInputStream.read(buffer, 0, buffer.length);
-                totalBytesRead += bytesRead;
-                fileOutputStream.write(buffer, 0, bytesRead);
+            FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\alexa\\IdeaProjects\\TCPProject\\TCP-Server\\lib\\"+fileName);
+            while(fileSize > 0 && (bytes = dataInputStream.read(buffer, 0, (int)Math.min(buffer.length, fileSize))) != -1)
+            {
+                fileOutputStream.write(buffer,0,bytes);
+                fileSize -= bytes;
             }
             fileOutputStream.close();
             return 1;

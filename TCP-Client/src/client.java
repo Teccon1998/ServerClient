@@ -27,8 +27,8 @@ public class client {
                 if(result == 1)
                 {
                     System.out.println("File sent successfully.");
+                    System.out.println(dataInputStream.readUTF());
                     break;
-
                 }
                 else
                 {

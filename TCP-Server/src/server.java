@@ -17,14 +17,21 @@ public class server {
 
                     String message;
                     while ((message = dataInputStream.readUTF()) != null) {
-                        System.out.println("Message received: " + message);
+                        System.out.println("Message received: " + message + "\n");
                         if(message.toLowerCase().substring(0, 3).contains("put"))
                         {
+                            System.out.println("Receiving file...\n");
                             int result = receiveFile(dataInputStream,message);
                             if(result == 1)
                             {
-                                dataOutputStream.writeUTF("File successfully uploaded. Breaking connection...");
+                                System.out.println("File successfully received. Sending confirmation message...\n");
+                                dataOutputStream.writeUTF("SERVER: File successfully uploaded. Breaking connection...\n");
+                                System.out.println("Closing connection...\n");
                                 clientSocket.close();
+                                if(clientSocket.isClosed())
+                                    System.out.println("Connection closed.\n");
+                                else
+                                    System.out.println("ERROR.");                                                            
                             }
                             else
                             {
